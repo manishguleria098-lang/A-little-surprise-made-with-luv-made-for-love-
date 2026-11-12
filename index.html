@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Birthday Surprise ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        margin: 0;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
+
+    /* Cinematic Background Glow */
+    .bg-glow {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.15), transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    /* Floating Animation Elements */
+    .floating-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+    }
+    .float-item {
+        position: absolute;
+        bottom: -50px;
+        animation: floatUp 8s linear infinite;
+        opacity: 0.7;
+    }
+    @keyframes floatUp {
+        0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+        20% { opacity: 0.8; }
+        100% { transform: translateY(-110vh) translateX(50px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Sections General */
+    section {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        text-align: center;
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    /* First Section */
+    #welcome-section { opacity: 1; transform: scale(1); }
+    .photo-frame {
+        width: min(280px, 82vw);
+        height: 350px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 20px;
+        background: #222;
+    }
+    .photo-frame img { width: 100%; height: 100%; object-fit: contain; }
+    .note-text {
+        font-family: 'Sacramento', cursive;
+        font-size: 2.5rem;
+        color: #ffb6c1;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 10px rgba(255, 182, 193, 0.4);
+    }
+
+    /* Buttons & Interactive Elements */
+    .romantic-btn {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 5px 20px rgba(255, 65, 108, 0.4);
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-weight: 500;
+        font-family: inherit;
+    }
+    .romantic-btn:active { transform: scale(0.95); }
+
+    /* Hidden Sections initially */
+    .hidden { display: none !important; opacity: 0; }
+
+    /* Memories Section */
+    #memories-section {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+    .memory-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    .memory-card img {
+        width: 100%;
+        height: 320px;
+        object-fit: contain;
+        border-radius: 15px;
+        background: rgba(0,0,0,.25);
+    }
+    .memory-card p {
+        font-size: 1.8rem;
+        color: #fce4ec;
+        font-family: 'Sacramento', cursive;
+        margin: 0;
+    }
+
+    /* Envelope Section */
+    .envelope-container { cursor: pointer; text-align: center; margin-bottom: 30px; }
+    .envelope {
+        width: 200px;
+        height: 130px;
+        background: #ff4b2b;
+        position: relative;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        margin: 0 auto 15px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .envelope-flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 100px solid transparent;
+        border-right: 100px solid transparent;
+        border-top: 70px solid #e63946;
+        transform-origin: top;
+        transition: transform 0.5s ease;
+    }
+    .envelope.open .envelope-flap { transform: rotateX(180deg); }
+    .letter-content {
+        background: #fff;
+        color: #333;
+        padding: 25px;
+        border-radius: 15px;
+        max-width: 500px;
+        width: 90%;
+        margin: 0 auto;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.5s ease;
+        text-align: left;
+        line-height: 1.75;
+    }
+    .letter-content.show { transform: translateY(0); opacity: 1; }
+    .letter-content p { white-space: pre-line; }
+
+    /* Voice Note Section */
+    .voice-note-box {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 30px;
+        backdrop-filter: blur(5px);
+    }
+
+    /* Puzzle Section */
+    .puzzle-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 130px));
+        gap: 12px;
+        margin: 20px auto;
+    }
+    .puzzle-piece {
+        width: 130px;
+        height: 130px;
+        background-size: 260px 260px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 2px dashed #ff4b2b;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 5px;
+        font-size: 0.85rem;
+        color: #fff;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        font-weight: 500;
+    }
+    .puzzle-piece.solved { border: 2px solid #4CAF50; }
+
+    /* Final Proposal Section */
+    .bubu-container { width: 150px; height: 150px; margin: 0 auto 15px auto; }
+    .bubu-container img { width: 100%; height: 100%; object-fit: contain; }
+    .proposal-buttons { display: flex; gap: 20px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
+    .no-btn { background: #555; position: relative; }
+
+    @media (max-width: 420px) {
+        .note-text { font-size: 2.1rem; }
+        .memory-card img { height: 280px; }
+        .letter-content { padding: 20px; }
+    }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="floating-container" id="floatingContainer"></div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop preload="auto">
+    <source src="assets/background-music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SECTION 1: Welcome & First Photo -->
+<section id="welcome-section">
+    <div class="photo-frame">
+        <img src="assets/23912.jpg" alt="My world is inside those eyes">
+    </div>
+    <div class="note-text">"My world is inside those eyes 💝🫂"</div>
+    <button class="romantic-btn" onclick="revealSurprise()">Reveal The Surprise ✨</button>
+</section>
+
+<!-- SECTION 2: Memories Section -->
+<section id="memories-section" class="hidden">
+    <h2 style="font-family: 'Sacramento', cursive; font-size: 3rem; color: #ffb6c1;">Our Beautiful Memories ✨</h2>
+
+    <div class="memory-card"><img src="assets/23913.jpg" alt="Memory 1"><p>Har lamha aapke sath khas lagta hai...</p></div>
+    <div class="memory-card"><img src="assets/23914.jpg" alt="Memory 2"><p>Aapki muskaan meri duniya hai...</p></div>
+    <div class="memory-card"><img src="assets/23915.jpg" alt="Memory 3"><p>Sath me bitaye har pal ki yaad...</p></div>
+    <div class="memory-card"><img src="assets/23916.jpg" alt="Memory 4"><p>Tumse hi meri khushiyan hain...</p></div>
+    <div class="memory-card"><img src="assets/23917.jpg" alt="Memory 5"><p>Behad khoobsurat safar hamara...</p></div>
+    <div class="memory-card"><img src="assets/23918.jpg" alt="Memory 6"><p>Hamesha aise hi paas rehna...</p></div>
+
+    <button class="romantic-btn" onclick="scrollToSection('message-section')">Read My Heart 💌</button>
+</section>
+
+<!-- SECTION 3: Envelope & Voice Note -->
+<section id="message-section" class="hidden">
+    <div class="envelope-container" onclick="openEnvelope()">
+        <div class="envelope" id="envelopeBox">
+            <div class="envelope-flap"></div>
+            <span style="z-index: 2; font-weight: 600;">Tap to Open 💌</span>
+        </div>
+    </div>
+
+    <div class="letter-content hidden" id="letterContent">
+        <h3 style="color: #ff4b2b; margin-bottom: 10px;">Happy Birthday, My Princess! ❤️🧿</h3>
+        <p id="mainMessageText">Pata hai, aaj ka din mere liye bhi bahut special hai, kyunki aaj ke din meri duniya ka sabse pyara insaan is duniya mein aaya tha. ❤️
+
+Main bas itna chahta hoon ki aapki life mein kabhi khushiyon ki kami na ho, aapke chehre ki smile kabhi kam na ho aur aapke saare sapne poore hon. Jab bhi aap udaas hon, toh bas itna yaad rakhna ki koi hai jo aapki ek chhoti si smile ke liye bhi dil se dua karta hai.
+
+Shayad main har baar aapke paas na ho paun, aapko hug karke ye na keh paun ki everything will be alright, lekin mera pyaar aur meri care hamesha aapke saath rahegi.
+
+Aap mere liye sirf ek insaan nahi hain, aap meri life ka woh beautiful part hain jise main kabhi khona nahi chahta. Main chahta hoon ki aapko har din utna hi pyaar, respect aur care mile jitni aap deserve karti hain.
+
+Aur haan, kabhi khud ko akela mat samajhna. Aapki khushi mere liye bahut maayne rakhti hai.
+
+Once again, Happiest Birthday! ❤️🥹 May your life always be filled with love, peace, endless smiles and beautiful moments. I love you so much! 🫀</p>
+
+        <div class="voice-note-box">
+            <button class="romantic-btn" onclick="toggleVoiceNote()" id="vnPlayBtn">▶ Play Voice Note</button>
+            <audio id="voiceNote" preload="metadata" src="assets/voice-note.m4a"></audio>
+            <span style="font-size: 0.9rem; color: #555;">Listen to my voice 🎙️</span>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <button class="romantic-btn" onclick="scrollToSection('puzzle-section')">Next Surprise 🧩</button>
+    </div>
+</section>
+
+<!-- SECTION 4: Puzzle Game -->
+<section id="puzzle-section" class="hidden">
+    <h2 style="font-family: 'Sacramento', cursive; font-size: 3rem; color: #ffb6c1;">Solve Our Puzzle 🧩</h2>
+    <p style="margin-bottom: 15px; color: #ddd;">Tap pieces to complete the romantic memory!</p>
+
+    <div class="puzzle-grid" id="puzzleGrid">
+        <div class="puzzle-piece" style="background-image: url('assets/23913.jpg'); background-position: 0 0;" onclick="solvePiece(this)">Tap to Fix</div>
+        <div class="puzzle-piece" style="background-image: url('assets/23913.jpg'); background-position: -130px 0;" onclick="solvePiece(this)">Tap to Fix</div>
+        <div class="puzzle-piece" style="background-image: url('assets/23913.jpg'); background-position: 0 -130px;" onclick="solvePiece(this)">Tap to Fix</div>
+        <div class="puzzle-piece" style="background-image: url('assets/23913.jpg'); background-position: -130px -130px;" onclick="solvePiece(this)">Tap to Fix</div>
+    </div>
+
+    <div id="puzzleNote" class="hidden" style="margin-top: 20px; font-family: 'Sacramento', cursive; font-size: 2rem; color: #ffb6c1;">
+        "Jaise ye puzzle complete hui, waise hi tumne meri adhuri zindagi ko mukammal kar diya 💖"
+    </div>
+
+    <div style="margin-top: 30px;">
+        <button class="romantic-btn" onclick="scrollToSection('proposal-section')">Final Question 💍</button>
+    </div>
+</section>
+
+<!-- SECTION 5: Final Proposal -->
+<section id="proposal-section" class="hidden">
+    <div class="bubu-container">
+        <img src="https://media.giphy.com/media/LMn722s42e8P1aFp47/giphy.gif" id="bubuImg" alt="Bubu Cartoon">
+    </div>
+    <h2 style="font-size: 2.2rem; margin-bottom: 10px; color: #fff;">"Will u be mine forever...?"</h2>
+
+    <div class="proposal-buttons">
+        <button class="romantic-btn" onclick="handleYes()">Yes! 💖</button>
+        <button class="romantic-btn no-btn" id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">No 🙈</button>
+    </div>
+
+    <div id="celebrationMsg" class="hidden" style="margin-top: 25px;">
+        <h3 style="font-family: 'Sacramento', cursive; font-size: 3rem; color: #ff69b4;">Yay! You said Yes! 🎉🥳</h3>
+        <a href="https://wa.me/916230924913?text=Yes%21%20I%20will%20be%20yours%20forever...%20%F0%9F%92%96" target="_blank" rel="noopener" class="romantic-btn" style="display: inline-block; margin-top: 15px; text-decoration: none;">Send Response on WhatsApp 💌</a>
+    </div>
+</section>
+
+<script>
+    const bgMusic = document.getElementById('bgMusic');
+    const voiceNote = document.getElementById('voiceNote');
+    let isVnPlaying = false;
+
+    // Floating Elements (Hearts, Balloons, Flowers)
+    const symbols = ['❤️', '🎈', '🌸', '💖', '🌹', '✨'];
+    const container = document.getElementById('floatingContainer');
+
+    function createFloatingItem() {
+        const item = document.createElement('div');
+        item.classList.add('float-item');
+        item.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        item.style.left = Math.random() * 100 + 'vw';
+        item.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        item.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        container.appendChild(item);
+        setTimeout(() => item.remove(), 10000);
+    }
+    setInterval(createFloatingItem, 400);
+
+    // Pop out click effects
+    function createPopHearts(e) {
+        for (let i = 0; i < 5; i++) {
+            const heart = document.createElement('div');
+            heart.textContent = '💖';
+            heart.style.position = 'fixed';
+            heart.style.left = (e.clientX + (Math.random() * 40 - 20)) + 'px';
+            heart.style.top = (e.clientY + (Math.random() * 40 - 20)) + 'px';
+            heart.style.fontSize = '24px';
+            heart.style.zIndex = '9999';
+            heart.style.transition = 'all 0.8s ease-out';
+            document.body.appendChild(heart);
+            setTimeout(() => {
+                heart.style.transform = `translate(${(Math.random() - 0.5) * 100}px, -100px) scale(1.5)`;
+                heart.style.opacity = '0';
+            }, 20);
+            setTimeout(() => heart.remove(), 900);
+        }
+    }
+    window.addEventListener('click', createPopHearts);
+
+    // Start music after the user's first tap (mobile browsers block autoplay).
+    async function startBackgroundMusic() {
+        if (bgMusic.paused) {
+            try { await bgMusic.play(); } catch (error) {
+                console.log('Background music could not start:', error);
+            }
+        }
+    }
+
+    // Navigation & Smooth Transitions
+    function revealSurprise() {
+        startBackgroundMusic();
+        const welcome = document.getElementById('welcome-section');
+        welcome.style.opacity = '0';
+        setTimeout(() => {
+            welcome.style.display = 'none';
+            const memories = document.getElementById('memories-section');
+            memories.classList.remove('hidden');
+            memories.style.opacity = '1';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 500);
+    }
+
+    function scrollToSection(sectionId) {
+        const target = document.getElementById(sectionId);
+        target.classList.remove('hidden');
+        target.style.opacity = '1';
+        target.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Envelope Open
+    function openEnvelope() {
+        const envelope = document.getElementById('envelopeBox');
+        const letter = document.getElementById('letterContent');
+        envelope.classList.add('open');
+        setTimeout(() => {
+            letter.classList.remove('hidden');
+            requestAnimationFrame(() => letter.classList.add('show'));
+        }, 400);
+    }
+
+    // Lower background music while the voice note plays.
+    async function toggleVoiceNote() {
+        const btn = document.getElementById('vnPlayBtn');
+        if (!isVnPlaying) {
+            try {
+                bgMusic.volume = 0.2;
+                await voiceNote.play();
+                isVnPlaying = true;
+                btn.textContent = '⏸ Pause Voice Note';
+            } catch (error) {
+                bgMusic.volume = 1;
+                console.log('Voice note could not play:', error);
+                btn.textContent = '▶ Play Voice Note';
+            }
+        } else {
+            voiceNote.pause();
+            bgMusic.volume = 1;
+            isVnPlaying = false;
+            btn.textContent = '▶ Play Voice Note';
+        }
+    }
+
+    voiceNote.addEventListener('ended', () => {
+        bgMusic.volume = 1;
+        isVnPlaying = false;
+        document.getElementById('vnPlayBtn').textContent = '▶ Play Voice Note';
+    });
+
+    // Puzzle Logic
+    let solvedPieces = 0;
+    function solvePiece(piece) {
+        if (!piece.classList.contains('solved')) {
+            piece.classList.add('solved');
+            piece.innerHTML = '✨ Matched';
+            solvedPieces++;
+            if (solvedPieces === 4) {
+                document.getElementById('puzzleNote').classList.remove('hidden');
+            }
+        }
+    }
+
+    // No button escape effect
+    function moveNoButton() {
+        const noBtn = document.getElementById('noBtn');
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 100 - 50;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // Yes Button Celebration
+    function handleYes() {
+        document.getElementById('proposal-section').querySelector('.proposal-buttons').style.display = 'none';
+        document.getElementById('celebrationMsg').classList.remove('hidden');
+        document.getElementById('bubuImg').src = 'https://media.giphy.com/media/TdfyKrN7HGTIY/giphy.gif';
+        for (let i = 0; i < 30; i++) setTimeout(createFloatingItem, i * 100);
+    }
+</script>
+</body>
+</html>
